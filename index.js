@@ -24,15 +24,29 @@ bot.command('course', async (ctx) => {
    
 })
 
-bot.action('btn_1', async (ctx) => {
+function addActionBot(name, src, text){
+    bot.action(name, async (ctx) => {
     try {
-        ctx.replyWithHTML('Обработка кнопки 1', {
-            disable_web_page_preview: true
+        await ctx.answerCbQuery()   // что бы кнопка которую обрабатываем перестала крутиться
+        if(src){
+            await ctx.replyWithPhoto({
+                source:src
+            })
+        }
+        await ctx.replyWithHTML(text, {
+            disable_web_page_preview: true,   //что бы не отправлялась картинка-превью с сылкой
         })
     } catch (error) {
-        
+        console.error(error)
     }
 })
+}
+
+addActionBot('btn_1', './img/01.jpg', text.text1)
+addActionBot('btn_2', './img/02.jpg', text.text2)
+addActionBot('btn_3', './img/03.jpg', text.text3)
+addActionBot('btn_4', false, text.text4)
+
 
 
 bot.launch()
